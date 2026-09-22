@@ -1,0 +1,13 @@
+{
+  "name":"Klub Ryder Cup",
+  "short_name":"Ryder Cup",
+  "description":"Digitale Kommandozentrale für den Klub-Ryder-Cup",
+  "start_url":"./",
+  "display":"standalone",
+  "background_color":"#f3eee3",
+  "theme_color":"#183b32",
+  "orientation":"portrait-primary",
+  "icons":[
+    {"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}
