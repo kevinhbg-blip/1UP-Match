@@ -44,3 +44,12 @@ Die frühere Speicherung `ryderCupState` wird beim ersten Start übernommen, fal
 
 Die Tests decken Gruppenregeln, Konfigurationsänderungen mit Score-Erhalt, Punkte, HCP, CSV-Parsing, Datenmigration, Seitenrendering, Duellerstellung, Live-Scoring, Ergebnisaktualisierung, Kalenderzusagen, Chat-Escaping, Rollenprüfungen, Löschen und Speicherfehler ab.
 
+
+
+## Ryder-Cup-Design, Teamlogos und Sponsoren
+
+- Neue navyblaue, weiße und goldene Oberfläche mit roten und blauen Spielständen.
+- Unter Teams können Kapitäne das Logo ihres eigenen Teams hochladen; Admins können alle Teamlogos verwalten. PNG, JPG und WebP bis 5 MB werden proportional auf 256 × 256 Pixel verkleinert. Logos erscheinen in Teamkarten, Rangliste, Teamduellen, Aufstellungen, Live-Matches und Ergebnissen. Ohne Upload erscheint ein Initialen-Wappen.
+- Die sechs vorhandenen Teams werden beim ersten Start des Updates auf 32, 34, 36, 38, 33 und 35 Spieler ergänzt. Erfundene Spieler sind als „Fiktiv“ markiert und über HCP auf A–D verteilt. Bestehende Spieler werden nicht überschrieben; bereits größere Kader werden nicht verkleinert. Die Ergänzung erfolgt einmalig je Browserdatenbestand.
+- Unter Admin → Sponsoren & Clubpartner lassen sich Partnername, kurzer Text, Website und Logo pflegen. Bis zu drei aktive Banner stehen unterhalb des Seiteninhalts. Keine Animation, kein Pop-up, keine Unterbrechung. Ohne Partner erscheint ein dezenter Werbeplatzhinweis.
+- Team- und Sponsorlogos sind in JSON-Sicherungen enthalten. Wie die übrigen Turnierdaten werden sie lokal im Browser gespeichert. Die Rollenansicht ist weiterhin keine serverseitige Authentifizierung.

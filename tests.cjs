@@ -31,5 +31,31 @@ run('session.role="Mitglied";handle("delete-all","")');assert.equal(run("state.d
 run('session.role="Admin";handle("delete-all","")');assert.equal(run("state.duels.length"),0);assert.equal(run("state.teams.length"),6);
 run('goto("live");goto("lineup");goto("results")');
 const before=run("JSON.stringify(state)");run('localStorage.setItem=()=>{throw Error("Quota exceeded")};commit(()=>state.teams=[])');assert.equal(run("JSON.stringify(state)"),before);
-console.log("PASS: group/drive rules, configuration protection, scoring, handicap, CSV, legacy migration, all page rendering, duel creation, scoring lifecycle, live results, RSVP, chat escaping, role guards, deletion, storage rollback");
+console.log("PASS: existing tournament features");
+const roster=C.initial();const existing={id:"real-player",name:"Erhaltene Spielerin",teamId:"1",group:"B",hcp:"12.4",role:"Mitglied",status:"Aktiv"};roster.players.push(existing);C.populateDemoPlayers(roster);
+assert.deepEqual(roster.teams.map(t=>roster.players.filter(p=>p.teamId===t.id).length),[32,34,36,38,33,35]);
+assert.deepEqual(roster.players.find(p=>p.id==="real-player"),existing);assert.equal(new Set(roster.players.map(p=>p.id)).size,roster.players.length);assert.equal(new Set(roster.players.map(p=>p.name)).size,roster.players.length);
+for(const t of roster.teams)for(const g of C.GROUPS){const members=roster.players.filter(p=>p.teamId===t.id&&p.group===g&&p.demo);assert(members.length>=7);assert(members.every(p=>Number(p.hcp)>=0&&Number(p.hcp)<=54))}
+const count=roster.players.length;C.populateDemoPlayers(roster);assert.equal(roster.players.length,count);roster.players.pop();C.populateDemoPlayers(roster);assert.equal(roster.players.length,count-1);
+const logo="data:image/png;base64,iVBORw0KGgo=";assert(C.validLogo(logo));assert(!C.validLogo('data:image/svg+xml;base64,PHN2Zz4='));assert(!C.validLogo('javascript:alert(1)'));
+roster.teams[0].logo=logo;roster.sponsors=[{id:"s",name:"Partner",text:"Dezent",logo,url:"https://example.com",active:true}];const restored=C.normalize(JSON.parse(JSON.stringify(roster)));assert.equal(restored.teams[0].logo,logo);assert.equal(restored.sponsors[0].logo,logo);assert.equal(C.safeSponsorUrl("javascript:alert(1)"),"");assert.equal(C.safeSponsorUrl("https://example.com"),"https://example.com/");
+run('session.role="Admin";localStorage.setItem=(k,v)=>{};state.teams[0].logo="data:image/png;base64,iVBORw0KGgo=";goto("teams")');assert.match(el("app").innerHTML,/Logo hochladen/);assert.match(el("app").innerHTML,/Logo Golden Youngstars/);
+run('session.role="Kapitän";session.teamId="1"');assert.equal(run('logoControls(state.teams[1])'),"");assert.match(run('logoControls(state.teams[0])'),/Logo hochladen/);
+run('handle("remove-logo","2")');assert.equal(run('state.teams[0].logo'),logo);run('handle("remove-logo","1")');assert.equal(run('state.teams[0].logo'),"");
+run('session.role="Admin";editSponsor()');el("editForm").onsubmit({preventDefault(){},target:{data:{name:"Clubpartner",text:"Dezente Werbung",url:"https://example.com"}}});assert.equal(run("state.sponsors.length"),1);assert.match(run("sponsorStrip()"),/Clubpartner/);assert.match(run("sponsorStrip()"),/rel="noopener noreferrer sponsored"/);
+run('handle("toggle-sponsor",state.sponsors[0].id)');assert(!run("sponsorStrip()").includes("Dezente Werbung"));assert.match(run("sponsorStrip()"),/Hier ist Platz/);
+console.log("PASS: 32–38 players per team, unique roster, HCP groups, one-time migration, preserved members, logo validation and backup, captain logo permissions, sponsor management and safe links");
+(async()=>{
+await assert.rejects(run('logoData({type:"image/svg+xml",size:1})'),/PNG, JPG oder WebP/);
+await assert.rejects(run('logoData({type:"image/png",size:6000000})'),/maximal 5 MB/);
+ctx.Image=class{constructor(){this.naturalWidth=512;this.naturalHeight=256}async decode(){}};
+ctx.URL={createObjectURL:()=>"blob:test",revokeObjectURL:()=>{}};
+let draw;ctx.document.createElement=()=>({getContext:()=>({drawImage:(...args)=>draw=args}),toDataURL:()=>logo});
+run('session.role="Kapitän";session.teamId="1"');
+await run('uploadTeamLogo({target:{dataset:{team:"1"},files:[{type:"image/png",size:1000}]}})');
+assert.equal(run('state.teams[0].logo'),logo);assert.equal(draw[3],256);assert.equal(draw[4],128);
+await run('uploadTeamLogo({target:{dataset:{team:"2"},files:[{type:"image/png",size:1000}]}})');assert(!run('state.teams[1].logo'));
+run('session.role="Admin";state.duels=[{id:"logo-duel",teamAId:"1",teamBId:"2",matches:[C.newMatch("A","Einzel")],signatures:{}}];selection="logo-duel";goto("lineup")');assert.match(el("app").innerHTML,/Logo Golden Youngstars/);run('goto("live")');assert.match(el("app").innerHTML,/Logo Golden Youngstars/);assert.match(run('duelCard(state.duels[0])'),/Logo Golden Youngstars/);
+console.log("PASS: image format/size rejection, aspect-preserving logo resize, authorized upload, forbidden foreign-team upload, logos on matches and duels");
+})().catch(e=>{console.error(e);process.exitCode=1});
 

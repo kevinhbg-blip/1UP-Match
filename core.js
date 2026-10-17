@@ -3,11 +3,11 @@
 const GROUPS=["A","B","C","D"],FORMATS=["Klassischer Vierer","Fourball","Einzel"];
 const uid=()=>globalThis.crypto?.randomUUID?.()||Date.now().toString(36)+Math.random().toString(36).slice(2);
 const clone=x=>JSON.parse(JSON.stringify(x));
-function initial(){return {version:2,teams:["Golden Youngstars","Greens","Red Hot Chillis","OG’s","Bachspin","Blackies"].map((name,i)=>({id:String(i+1),name,color:["#5d9a73","#537ea8","#b75a52","#c9a83d","#8366a8","#303936"][i],captain:["Kevin Hinterberger","Thomas Schober","Viktor Antal","Günter Obermair","Christian Butz","Georg Marchgraber"][i]})),players:[],duels:[],events:[],messages:[],photos:[],config:{vierer:1,fourball:0,einzel:1,hcpEinzelPct:75,hcpDoppelPct:75,nennlisteUrl:""},nennliste:null}}
+function initial(){return {version:2,teams:["Golden Youngstars","Greens","Red Hot Chillis","OG’s","Bachspin","Blackies"].map((name,i)=>({id:String(i+1),name,color:["#5d9a73","#537ea8","#b75a52","#c9a83d","#8366a8","#303936"][i],captain:["Kevin Hinterberger","Thomas Schober","Viktor Antal","Günter Obermair","Christian Butz","Georg Marchgraber"][i]})),players:[],duels:[],events:[],messages:[],photos:[],sponsors:[],config:{vierer:1,fourball:0,einzel:1,hcpEinzelPct:75,hcpDoppelPct:75,nennlisteUrl:""},nennliste:null}}
 function normalize(raw){
 if(!raw||!Array.isArray(raw.teams)||!Array.isArray(raw.players))throw Error("Ungültige Sicherung: Teams oder Spieler fehlen.");
 const s={...initial(),...clone(raw),version:2};
-s.teams=s.teams.map(t=>({id:String(t.id),name:String(t.name||"Team"),color:/^#[0-9a-f]{6}$/i.test(t.color)?t.color:"#28584a",captain:String(t.captain||"")}));
+s.teams=s.teams.map(t=>({id:String(t.id),name:String(t.name||"Team"),color:/^#[0-9a-f]{6}$/i.test(t.color)?t.color:"#28584a",captain:String(t.captain||""),logo:validLogo(t.logo)?t.logo:""}));
 s.players=s.players.map(p=>Array.isArray(p)?{id:uid(),name:String(p[0]),teamId:String(p[1]),hcp:String(p[2]),status:p[3]||"Aktiv",role:p[4]||"Mitglied",club:p[5]||"",group:GROUPS.includes(p[6])?p[6]:""}:{...p,id:String(p.id||uid()),teamId:String(p.teamId),group:GROUPS.includes(p.group)?p.group:""});
 s.config={...initial().config,...s.config};
 if(raw.config?.viererMatches!==undefined){s.config.vierer=raw.config.viererEnabled===false?0:raw.config.viererMatches;s.config.einzel=raw.config.einzelMatches||1}
@@ -19,7 +19,7 @@ groups.get(k).matches.push({id:String(m.id),group:m.group||"A",format:m.format==
 s.duels=s.duels.map(d=>({...d,id:String(d.id),teamAId:String(d.teamAId),teamBId:String(d.teamBId),signatures:d.signatures||{},matches:(d.matches||[]).map(m=>({...m,id:String(m.id),group:GROUPS.includes(m.group)?m.group:"A",playerA:(m.playerA||[]).map(String),playerB:(m.playerB||[]).map(String),holes:Array.from({length:18},(_,i)=>[1,-1].includes(m.holes?.[i])?m.holes[i]:0),played:Array.from({length:18},(_,i)=>m.played?.[i]??(m.holes?.[i]!==0&&m.holes?.[i]!==undefined)),status:["pending","live","done"].includes(m.status)?m.status:"pending"}))}));
 s.events=(s.events||[]).map((e,i)=>Array.isArray(e)?{id:String(i),title:e[1],date:"",time:e[0],location:e[3],rsvp:false}:{...e,id:String(e.id)});
 s.messages=(s.messages||[]).map(m=>typeof m==="string"?{id:uid(),text:m,channel:"team",teamId:s.teams[0]?.id,author:"Import",at:""}:m);
-s.photos=Array.isArray(s.photos)?s.photos:[];return s;
+s.photos=Array.isArray(s.photos)?s.photos:[];s.sponsors=(Array.isArray(s.sponsors)?s.sponsors:[]).map(p=>({id:String(p.id||uid()),name:String(p.name||""),text:String(p.text||""),url:safeSponsorUrl(p.url),logo:validLogo(p.logo)?p.logo:"",active:p.active!==false}));return s;
 }
 const drive=m=>m.format==="Klassischer Vierer"&&m.group!=="A";
 const started=m=>m.status!=="pending"||m.played.some(Boolean);
@@ -46,7 +46,24 @@ const col=(re,def)=>header?h.findIndex(c=>re.test(c)):def;
 const ni=col(/^(name|spieler)$/,0),vi=col(/^vorname$/,-1),li=col(/^nachname$/,-1),ci=col(/^(club|klub|verein)$/,1),hi=col(/^(hcp|handicap|vorgabe)$/,2),gi=col(/^gruppe$/,-1),ti=col(/^team$/,-1);
 return rows.slice(header?1:0).map(r=>({name:vi>=0||li>=0?((r[vi]||"")+" "+(r[li]||"")).trim():r[ni]||"",club:r[ci]||"",hcp:r[hi]||"",group:(r[gi]||"").toUpperCase(),team:r[ti]||""})).filter(r=>r.name);
 }
-const api={GROUPS,FORMATS,uid,clone,initial,normalize,drive,started,newMatch,configure,score,points,duelScore,leaderboard,handicap,parseCSV};
+
+function safeSponsorUrl(value){try{const url=new URL(value);return ["https:","http:"].includes(url.protocol)?url.href:""}catch{return ""}}
+function validLogo(value){return typeof value==="string"&&value.length<=400000&&/^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/]+={0,2}$/.test(value)}
+function populateDemoPlayers(s){
+if(s.demoRosterVersion===1)return false;
+const first=["Lukas","Anna","Felix","Sophie","Maximilian","Laura","Julian","Marie","Tobias","Emma","Florian","Katharina","Daniel","Leonie","Simon","Clara","David","Johanna","Leon","Lena","Matthias","Theresa","Paul","Hannah","Sebastian","Elisa","Moritz","Marlene","Alexander","Valerie","Jonas","Carina","Fabian","Nora","Philipp","Luisa","Benedikt","Sarah","Niklas","Julia","Vincent","Amelie"];
+const last=["Bergmann","Waldner","Sonnleitner","Feldhofer","Steinberger","Auer","Lindner","Hartmann","Brunner","Kirchner","Eichler","Winter","Huber","Seidl","Kogler","Reiter","Brandl","Leitner","Fuchs","Hofer","Stadler","Winkler","Moser","Gruber","Eder","Schuster","Bauer","Keller","Wagner","Baumgartner","Neumann","Franke","Berger","Albrecht","Wieser","Schmid","Kramer","Thaler","Koller","Engel","Riedl","Forster","Fischer"];
+const names=new Set(s.players.map(p=>p.name.toLowerCase())),ids=new Set(s.players.map(p=>p.id));
+s.teams.forEach((t,ti)=>{const target=[32,34,36,38,33,35][ti%6],count=s.players.filter(p=>p.teamId===t.id).length;
+for(let j=count;j<target;j++){let n=ti*41+j,name;do{name=first[n%first.length]+" "+last[Math.floor(n/first.length)%last.length];n++}while(names.has(name.toLowerCase()));names.add(name.toLowerCase());
+const g=Math.min(3,Math.floor(j*4/target)),pos=(j*4/target)%1,hcp=([1.2,8.5,16.1,25.2][g]+pos*[6.5,6.9,8.2,14.5][g]).toFixed(1);
+let id="demo-"+t.id+"-"+j;while(ids.has(id))id+="-x";ids.add(id);
+s.players.push({id,name,teamId:t.id,hcp,status:"Aktiv",role:"Mitglied",club:"Golfclub Sonnental (fiktiv)",group:GROUPS[g],demo:true});
+}});
+s.demoRosterVersion=1;return true;
+}
+
+const api={safeSponsorUrl,populateDemoPlayers,validLogo,GROUPS,FORMATS,uid,clone,initial,normalize,drive,started,newMatch,configure,score,points,duelScore,leaderboard,handicap,parseCSV};
 if(typeof module!=="undefined")module.exports=api;else root.Cup=api;
 })(globalThis);
 
