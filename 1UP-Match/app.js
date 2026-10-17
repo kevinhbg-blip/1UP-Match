@@ -238,12 +238,11 @@ let added=0;
 Object.keys(byIndex).forEach(i=>{let r=byIndex[i];if(!r.name||!r.name.trim())return;state.players.push([r.name.trim(),r.team||state.teams[0].id,(r.hcp||"—").toString().trim()||"—","Aktiv","Mitglied",(r.club||"").trim()]);added++});
 save();
 currentPage="members";
-app();
+
 toast(added+" Spieler importiert und Teams zugeordnet")
 }
 if("serviceWorker" in navigator) window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js"));
-app();
+
 
 function renderResults(){document.getElementById("resultsContent").innerHTML=`<h3>Ergebnisse der Teamduelle</h3>${duels().map(ms=>{let score=duelScore(ms);return `<div class="feeditem"><b>${esc(duelTitle(ms))}</b><br>${score[0]} : ${score[1]} · ${ms.filter(m=>m.status==="Beendet").length}/${ms.length} Matches beendet</div>`}).join("")||'<p class="small muted">Keine Teamduelle vorhanden.</p>'}`}
-
 app();
