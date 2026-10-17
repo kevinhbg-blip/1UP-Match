@@ -1,0 +1,12 @@
+const fs=require('node:fs'),assert=require('node:assert/strict'),ts=require('typescript');
+for(const ext of ['.ts','.tsx'])require.extensions[ext]=(mod,path)=>mod._compile(ts.transpile(fs.readFileSync(path,'utf8'),{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,jsx:ts.JsxEmit.ReactJSX,esModuleInterop:true}),path);
+const {importLegacy}=require('../app/legacy-import.ts'),M=require('../app/model.ts'),{authDefaults}=require('../app/cup-auth.ts');
+const state=authDefaults(M.upgradeEntries(M.seed('owner'))),before=JSON.stringify(state);
+const raw={teams:[{id:'a',name:'Golden Youngstars',color:'#123456'},{id:'b',name:'OG’s',color:'#654321'}],players:[{id:'p1',teamId:'a',name:'Import A',hcp:'54',group:'B'},{id:'p2',teamId:'b',name:'Import B',hcp:'12,4',group:'B'}],duels:[{id:'duel1',teamAId:'a',teamBId:'b',date:'2026-10-17',matches:[{id:'match1',format:'Einzel',group:'B',playerA:['p1'],playerB:['p2'],holes:[1,...Array(17).fill(0)],played:[true,...Array(17).fill(false)],status:'done'}],signatures:{a:{name:'Captain'}}}]};
+const result=importLegacy(state,raw),match=result.matches.at(-1);
+assert.equal(JSON.stringify(state),before,'input must stay unchanged');assert.equal(result.matches.length,state.matches.length+1);assert.equal(result.fixtures.at(-1).b,'OGs');assert.equal(match.playersA[0].hcp,54);assert.equal(match.playersB[0].hcp,12.4);assert.equal(match.group,'B');assert.equal(M.score(match).end,true);assert.equal(M.score(match).label,'1 AUF');assert.equal(M.teamAllowance(match.playersA),27);assert.deepEqual(result.fixtures.at(-1).signatures,{});assert.deepEqual(result.fixtures.at(-1).importedSignatures,raw.duels[0].signatures);
+assert.throws(()=>importLegacy(result,raw),/bereits/);
+const invalid=structuredClone(raw);invalid.players[1].hcp='invalid';assert.throws(()=>importLegacy(state,invalid),/Handicap/);assert.equal(JSON.stringify(state),before);
+invalid.players[1].hcp=12;invalid.duels[0].matches[0].played[2]=true;assert.throws(()=>importLegacy(state,invalid),/Lücken/);
+const badTeam=structuredClone(raw);badTeam.teams[0].name='Other';assert.throws(()=>importLegacy(state,badTeam),/Unbekanntes Team/);
+console.log('PASS: atomic legacy import, team aliases, comma handicaps, HCP cap, manual finish, signatures archive, duplicate detection and invalid data rejection');

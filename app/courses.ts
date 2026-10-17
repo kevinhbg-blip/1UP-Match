@@ -1,0 +1,8 @@
+// Official club scorecard, currently linked on /spielen/; retrieved 2026-10-17.
+export const scorecardSource='https://www.golfresort-kremstal.at/wp-content/uploads/2024/04/Scorekarte-27-Loch-2023.pdf';
+export const ratingSource='https://www.golfresort-kremstal.at/wp-content/uploads/2023/09/Spielvorgaben-ab-2023-web.pdf';
+export const nines={A:{name:'Bergergut',si:[5,15,3,1,7,17,11,13,9],par:[4,3,5,4,4,4,5,3,4]},B:{name:'Panorama',si:[2,12,8,16,6,10,4,18,14],par:[4,3,5,4,4,4,4,3,5]},C:{name:'Scherndlgut',si:[11,7,15,17,9,3,5,13,1],par:[3,4,5,3,4,4,5,3,4]}};
+export const combinations=['AB','BA','AC','CA','BC','CB','CC'];
+export function coursePreset(key:string){if(!combinations.includes(key))throw Error('Ungültige Kurskombination');const codes=key.split('') as (keyof typeof nines)[];const holes=codes.flatMap((code,half)=>nines[code].par.map((par,i)=>({code,localHole:i+1,par,si:code==='C'?nines.C.si[i]+(key.includes('A')||key==='CC'&&half===1?1:0):nines[code].si[i]})));return {key,name:`Golfresort Kremstal · ${key} (${codes.map(c=>nines[c].name).join(' → ')})`,si:holes.map(h=>h.si),holes,source:scorecardSource};}
+// Visible columns of the official ÖGV table. No estimated ratings for AC/BC.
+export function courseRatings(key:string){return key==='AB'||key==='BA'?[{tee:'Herren Weiß',cr:73.3,slope:128,par:72},{tee:'Herren Gelb',cr:71.3,slope:127,par:72},{tee:'Herren Blau',cr:69.3,slope:122,par:72},{tee:'Damen Blau',cr:75.4,slope:130,par:72},{tee:'Damen Rot',cr:72.4,slope:128,par:72}]:key==='CC'?[{tee:'Herren Gelb',cr:68.1,slope:121,par:70},{tee:'Herren Rot',cr:65,slope:117,par:70},{tee:'Damen Gelb',cr:73.5,slope:128,par:70},{tee:'Damen Rot',cr:71.2,slope:118,par:70}]:[];}

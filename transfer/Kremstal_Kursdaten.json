@@ -1,0 +1,1047 @@
+{
+  "exportedAt": "2026-10-17",
+  "sourceCommit": "388111eb0da047f85b3c57ca9a45f1efd5049f7e",
+  "scorecardSource": "https://www.golfresort-kremstal.at/wp-content/uploads/2024/04/Scorekarte-27-Loch-2023.pdf",
+  "ratingSource": "https://www.golfresort-kremstal.at/wp-content/uploads/2023/09/Spielvorgaben-ab-2023-web.pdf",
+  "courses": [
+    {
+      "key": "AB",
+      "name": "Golfresort Kremstal · AB (Bergergut → Panorama)",
+      "si": [
+        5,
+        15,
+        3,
+        1,
+        7,
+        17,
+        11,
+        13,
+        9,
+        2,
+        12,
+        8,
+        16,
+        6,
+        10,
+        4,
+        18,
+        14
+      ],
+      "holes": [
+        {
+          "code": "A",
+          "localHole": 1,
+          "par": 4,
+          "si": 5
+        },
+        {
+          "code": "A",
+          "localHole": 2,
+          "par": 3,
+          "si": 15
+        },
+        {
+          "code": "A",
+          "localHole": 3,
+          "par": 5,
+          "si": 3
+        },
+        {
+          "code": "A",
+          "localHole": 4,
+          "par": 4,
+          "si": 1
+        },
+        {
+          "code": "A",
+          "localHole": 5,
+          "par": 4,
+          "si": 7
+        },
+        {
+          "code": "A",
+          "localHole": 6,
+          "par": 4,
+          "si": 17
+        },
+        {
+          "code": "A",
+          "localHole": 7,
+          "par": 5,
+          "si": 11
+        },
+        {
+          "code": "A",
+          "localHole": 8,
+          "par": 3,
+          "si": 13
+        },
+        {
+          "code": "A",
+          "localHole": 9,
+          "par": 4,
+          "si": 9
+        },
+        {
+          "code": "B",
+          "localHole": 1,
+          "par": 4,
+          "si": 2
+        },
+        {
+          "code": "B",
+          "localHole": 2,
+          "par": 3,
+          "si": 12
+        },
+        {
+          "code": "B",
+          "localHole": 3,
+          "par": 5,
+          "si": 8
+        },
+        {
+          "code": "B",
+          "localHole": 4,
+          "par": 4,
+          "si": 16
+        },
+        {
+          "code": "B",
+          "localHole": 5,
+          "par": 4,
+          "si": 6
+        },
+        {
+          "code": "B",
+          "localHole": 6,
+          "par": 4,
+          "si": 10
+        },
+        {
+          "code": "B",
+          "localHole": 7,
+          "par": 4,
+          "si": 4
+        },
+        {
+          "code": "B",
+          "localHole": 8,
+          "par": 3,
+          "si": 18
+        },
+        {
+          "code": "B",
+          "localHole": 9,
+          "par": 5,
+          "si": 14
+        }
+      ],
+      "source": "https://www.golfresort-kremstal.at/wp-content/uploads/2024/04/Scorekarte-27-Loch-2023.pdf",
+      "ratings": [
+        {
+          "tee": "Herren Weiß",
+          "cr": 73.3,
+          "slope": 128,
+          "par": 72
+        },
+        {
+          "tee": "Herren Gelb",
+          "cr": 71.3,
+          "slope": 127,
+          "par": 72
+        },
+        {
+          "tee": "Herren Blau",
+          "cr": 69.3,
+          "slope": 122,
+          "par": 72
+        },
+        {
+          "tee": "Damen Blau",
+          "cr": 75.4,
+          "slope": 130,
+          "par": 72
+        },
+        {
+          "tee": "Damen Rot",
+          "cr": 72.4,
+          "slope": 128,
+          "par": 72
+        }
+      ]
+    },
+    {
+      "key": "BA",
+      "name": "Golfresort Kremstal · BA (Panorama → Bergergut)",
+      "si": [
+        2,
+        12,
+        8,
+        16,
+        6,
+        10,
+        4,
+        18,
+        14,
+        5,
+        15,
+        3,
+        1,
+        7,
+        17,
+        11,
+        13,
+        9
+      ],
+      "holes": [
+        {
+          "code": "B",
+          "localHole": 1,
+          "par": 4,
+          "si": 2
+        },
+        {
+          "code": "B",
+          "localHole": 2,
+          "par": 3,
+          "si": 12
+        },
+        {
+          "code": "B",
+          "localHole": 3,
+          "par": 5,
+          "si": 8
+        },
+        {
+          "code": "B",
+          "localHole": 4,
+          "par": 4,
+          "si": 16
+        },
+        {
+          "code": "B",
+          "localHole": 5,
+          "par": 4,
+          "si": 6
+        },
+        {
+          "code": "B",
+          "localHole": 6,
+          "par": 4,
+          "si": 10
+        },
+        {
+          "code": "B",
+          "localHole": 7,
+          "par": 4,
+          "si": 4
+        },
+        {
+          "code": "B",
+          "localHole": 8,
+          "par": 3,
+          "si": 18
+        },
+        {
+          "code": "B",
+          "localHole": 9,
+          "par": 5,
+          "si": 14
+        },
+        {
+          "code": "A",
+          "localHole": 1,
+          "par": 4,
+          "si": 5
+        },
+        {
+          "code": "A",
+          "localHole": 2,
+          "par": 3,
+          "si": 15
+        },
+        {
+          "code": "A",
+          "localHole": 3,
+          "par": 5,
+          "si": 3
+        },
+        {
+          "code": "A",
+          "localHole": 4,
+          "par": 4,
+          "si": 1
+        },
+        {
+          "code": "A",
+          "localHole": 5,
+          "par": 4,
+          "si": 7
+        },
+        {
+          "code": "A",
+          "localHole": 6,
+          "par": 4,
+          "si": 17
+        },
+        {
+          "code": "A",
+          "localHole": 7,
+          "par": 5,
+          "si": 11
+        },
+        {
+          "code": "A",
+          "localHole": 8,
+          "par": 3,
+          "si": 13
+        },
+        {
+          "code": "A",
+          "localHole": 9,
+          "par": 4,
+          "si": 9
+        }
+      ],
+      "source": "https://www.golfresort-kremstal.at/wp-content/uploads/2024/04/Scorekarte-27-Loch-2023.pdf",
+      "ratings": [
+        {
+          "tee": "Herren Weiß",
+          "cr": 73.3,
+          "slope": 128,
+          "par": 72
+        },
+        {
+          "tee": "Herren Gelb",
+          "cr": 71.3,
+          "slope": 127,
+          "par": 72
+        },
+        {
+          "tee": "Herren Blau",
+          "cr": 69.3,
+          "slope": 122,
+          "par": 72
+        },
+        {
+          "tee": "Damen Blau",
+          "cr": 75.4,
+          "slope": 130,
+          "par": 72
+        },
+        {
+          "tee": "Damen Rot",
+          "cr": 72.4,
+          "slope": 128,
+          "par": 72
+        }
+      ]
+    },
+    {
+      "key": "AC",
+      "name": "Golfresort Kremstal · AC (Bergergut → Scherndlgut)",
+      "si": [
+        5,
+        15,
+        3,
+        1,
+        7,
+        17,
+        11,
+        13,
+        9,
+        12,
+        8,
+        16,
+        18,
+        10,
+        4,
+        6,
+        14,
+        2
+      ],
+      "holes": [
+        {
+          "code": "A",
+          "localHole": 1,
+          "par": 4,
+          "si": 5
+        },
+        {
+          "code": "A",
+          "localHole": 2,
+          "par": 3,
+          "si": 15
+        },
+        {
+          "code": "A",
+          "localHole": 3,
+          "par": 5,
+          "si": 3
+        },
+        {
+          "code": "A",
+          "localHole": 4,
+          "par": 4,
+          "si": 1
+        },
+        {
+          "code": "A",
+          "localHole": 5,
+          "par": 4,
+          "si": 7
+        },
+        {
+          "code": "A",
+          "localHole": 6,
+          "par": 4,
+          "si": 17
+        },
+        {
+          "code": "A",
+          "localHole": 7,
+          "par": 5,
+          "si": 11
+        },
+        {
+          "code": "A",
+          "localHole": 8,
+          "par": 3,
+          "si": 13
+        },
+        {
+          "code": "A",
+          "localHole": 9,
+          "par": 4,
+          "si": 9
+        },
+        {
+          "code": "C",
+          "localHole": 1,
+          "par": 3,
+          "si": 12
+        },
+        {
+          "code": "C",
+          "localHole": 2,
+          "par": 4,
+          "si": 8
+        },
+        {
+          "code": "C",
+          "localHole": 3,
+          "par": 5,
+          "si": 16
+        },
+        {
+          "code": "C",
+          "localHole": 4,
+          "par": 3,
+          "si": 18
+        },
+        {
+          "code": "C",
+          "localHole": 5,
+          "par": 4,
+          "si": 10
+        },
+        {
+          "code": "C",
+          "localHole": 6,
+          "par": 4,
+          "si": 4
+        },
+        {
+          "code": "C",
+          "localHole": 7,
+          "par": 5,
+          "si": 6
+        },
+        {
+          "code": "C",
+          "localHole": 8,
+          "par": 3,
+          "si": 14
+        },
+        {
+          "code": "C",
+          "localHole": 9,
+          "par": 4,
+          "si": 2
+        }
+      ],
+      "source": "https://www.golfresort-kremstal.at/wp-content/uploads/2024/04/Scorekarte-27-Loch-2023.pdf",
+      "ratings": []
+    },
+    {
+      "key": "CA",
+      "name": "Golfresort Kremstal · CA (Scherndlgut → Bergergut)",
+      "si": [
+        12,
+        8,
+        16,
+        18,
+        10,
+        4,
+        6,
+        14,
+        2,
+        5,
+        15,
+        3,
+        1,
+        7,
+        17,
+        11,
+        13,
+        9
+      ],
+      "holes": [
+        {
+          "code": "C",
+          "localHole": 1,
+          "par": 3,
+          "si": 12
+        },
+        {
+          "code": "C",
+          "localHole": 2,
+          "par": 4,
+          "si": 8
+        },
+        {
+          "code": "C",
+          "localHole": 3,
+          "par": 5,
+          "si": 16
+        },
+        {
+          "code": "C",
+          "localHole": 4,
+          "par": 3,
+          "si": 18
+        },
+        {
+          "code": "C",
+          "localHole": 5,
+          "par": 4,
+          "si": 10
+        },
+        {
+          "code": "C",
+          "localHole": 6,
+          "par": 4,
+          "si": 4
+        },
+        {
+          "code": "C",
+          "localHole": 7,
+          "par": 5,
+          "si": 6
+        },
+        {
+          "code": "C",
+          "localHole": 8,
+          "par": 3,
+          "si": 14
+        },
+        {
+          "code": "C",
+          "localHole": 9,
+          "par": 4,
+          "si": 2
+        },
+        {
+          "code": "A",
+          "localHole": 1,
+          "par": 4,
+          "si": 5
+        },
+        {
+          "code": "A",
+          "localHole": 2,
+          "par": 3,
+          "si": 15
+        },
+        {
+          "code": "A",
+          "localHole": 3,
+          "par": 5,
+          "si": 3
+        },
+        {
+          "code": "A",
+          "localHole": 4,
+          "par": 4,
+          "si": 1
+        },
+        {
+          "code": "A",
+          "localHole": 5,
+          "par": 4,
+          "si": 7
+        },
+        {
+          "code": "A",
+          "localHole": 6,
+          "par": 4,
+          "si": 17
+        },
+        {
+          "code": "A",
+          "localHole": 7,
+          "par": 5,
+          "si": 11
+        },
+        {
+          "code": "A",
+          "localHole": 8,
+          "par": 3,
+          "si": 13
+        },
+        {
+          "code": "A",
+          "localHole": 9,
+          "par": 4,
+          "si": 9
+        }
+      ],
+      "source": "https://www.golfresort-kremstal.at/wp-content/uploads/2024/04/Scorekarte-27-Loch-2023.pdf",
+      "ratings": []
+    },
+    {
+      "key": "BC",
+      "name": "Golfresort Kremstal · BC (Panorama → Scherndlgut)",
+      "si": [
+        2,
+        12,
+        8,
+        16,
+        6,
+        10,
+        4,
+        18,
+        14,
+        11,
+        7,
+        15,
+        17,
+        9,
+        3,
+        5,
+        13,
+        1
+      ],
+      "holes": [
+        {
+          "code": "B",
+          "localHole": 1,
+          "par": 4,
+          "si": 2
+        },
+        {
+          "code": "B",
+          "localHole": 2,
+          "par": 3,
+          "si": 12
+        },
+        {
+          "code": "B",
+          "localHole": 3,
+          "par": 5,
+          "si": 8
+        },
+        {
+          "code": "B",
+          "localHole": 4,
+          "par": 4,
+          "si": 16
+        },
+        {
+          "code": "B",
+          "localHole": 5,
+          "par": 4,
+          "si": 6
+        },
+        {
+          "code": "B",
+          "localHole": 6,
+          "par": 4,
+          "si": 10
+        },
+        {
+          "code": "B",
+          "localHole": 7,
+          "par": 4,
+          "si": 4
+        },
+        {
+          "code": "B",
+          "localHole": 8,
+          "par": 3,
+          "si": 18
+        },
+        {
+          "code": "B",
+          "localHole": 9,
+          "par": 5,
+          "si": 14
+        },
+        {
+          "code": "C",
+          "localHole": 1,
+          "par": 3,
+          "si": 11
+        },
+        {
+          "code": "C",
+          "localHole": 2,
+          "par": 4,
+          "si": 7
+        },
+        {
+          "code": "C",
+          "localHole": 3,
+          "par": 5,
+          "si": 15
+        },
+        {
+          "code": "C",
+          "localHole": 4,
+          "par": 3,
+          "si": 17
+        },
+        {
+          "code": "C",
+          "localHole": 5,
+          "par": 4,
+          "si": 9
+        },
+        {
+          "code": "C",
+          "localHole": 6,
+          "par": 4,
+          "si": 3
+        },
+        {
+          "code": "C",
+          "localHole": 7,
+          "par": 5,
+          "si": 5
+        },
+        {
+          "code": "C",
+          "localHole": 8,
+          "par": 3,
+          "si": 13
+        },
+        {
+          "code": "C",
+          "localHole": 9,
+          "par": 4,
+          "si": 1
+        }
+      ],
+      "source": "https://www.golfresort-kremstal.at/wp-content/uploads/2024/04/Scorekarte-27-Loch-2023.pdf",
+      "ratings": []
+    },
+    {
+      "key": "CB",
+      "name": "Golfresort Kremstal · CB (Scherndlgut → Panorama)",
+      "si": [
+        11,
+        7,
+        15,
+        17,
+        9,
+        3,
+        5,
+        13,
+        1,
+        2,
+        12,
+        8,
+        16,
+        6,
+        10,
+        4,
+        18,
+        14
+      ],
+      "holes": [
+        {
+          "code": "C",
+          "localHole": 1,
+          "par": 3,
+          "si": 11
+        },
+        {
+          "code": "C",
+          "localHole": 2,
+          "par": 4,
+          "si": 7
+        },
+        {
+          "code": "C",
+          "localHole": 3,
+          "par": 5,
+          "si": 15
+        },
+        {
+          "code": "C",
+          "localHole": 4,
+          "par": 3,
+          "si": 17
+        },
+        {
+          "code": "C",
+          "localHole": 5,
+          "par": 4,
+          "si": 9
+        },
+        {
+          "code": "C",
+          "localHole": 6,
+          "par": 4,
+          "si": 3
+        },
+        {
+          "code": "C",
+          "localHole": 7,
+          "par": 5,
+          "si": 5
+        },
+        {
+          "code": "C",
+          "localHole": 8,
+          "par": 3,
+          "si": 13
+        },
+        {
+          "code": "C",
+          "localHole": 9,
+          "par": 4,
+          "si": 1
+        },
+        {
+          "code": "B",
+          "localHole": 1,
+          "par": 4,
+          "si": 2
+        },
+        {
+          "code": "B",
+          "localHole": 2,
+          "par": 3,
+          "si": 12
+        },
+        {
+          "code": "B",
+          "localHole": 3,
+          "par": 5,
+          "si": 8
+        },
+        {
+          "code": "B",
+          "localHole": 4,
+          "par": 4,
+          "si": 16
+        },
+        {
+          "code": "B",
+          "localHole": 5,
+          "par": 4,
+          "si": 6
+        },
+        {
+          "code": "B",
+          "localHole": 6,
+          "par": 4,
+          "si": 10
+        },
+        {
+          "code": "B",
+          "localHole": 7,
+          "par": 4,
+          "si": 4
+        },
+        {
+          "code": "B",
+          "localHole": 8,
+          "par": 3,
+          "si": 18
+        },
+        {
+          "code": "B",
+          "localHole": 9,
+          "par": 5,
+          "si": 14
+        }
+      ],
+      "source": "https://www.golfresort-kremstal.at/wp-content/uploads/2024/04/Scorekarte-27-Loch-2023.pdf",
+      "ratings": []
+    },
+    {
+      "key": "CC",
+      "name": "Golfresort Kremstal · CC (Scherndlgut → Scherndlgut)",
+      "si": [
+        11,
+        7,
+        15,
+        17,
+        9,
+        3,
+        5,
+        13,
+        1,
+        12,
+        8,
+        16,
+        18,
+        10,
+        4,
+        6,
+        14,
+        2
+      ],
+      "holes": [
+        {
+          "code": "C",
+          "localHole": 1,
+          "par": 3,
+          "si": 11
+        },
+        {
+          "code": "C",
+          "localHole": 2,
+          "par": 4,
+          "si": 7
+        },
+        {
+          "code": "C",
+          "localHole": 3,
+          "par": 5,
+          "si": 15
+        },
+        {
+          "code": "C",
+          "localHole": 4,
+          "par": 3,
+          "si": 17
+        },
+        {
+          "code": "C",
+          "localHole": 5,
+          "par": 4,
+          "si": 9
+        },
+        {
+          "code": "C",
+          "localHole": 6,
+          "par": 4,
+          "si": 3
+        },
+        {
+          "code": "C",
+          "localHole": 7,
+          "par": 5,
+          "si": 5
+        },
+        {
+          "code": "C",
+          "localHole": 8,
+          "par": 3,
+          "si": 13
+        },
+        {
+          "code": "C",
+          "localHole": 9,
+          "par": 4,
+          "si": 1
+        },
+        {
+          "code": "C",
+          "localHole": 1,
+          "par": 3,
+          "si": 12
+        },
+        {
+          "code": "C",
+          "localHole": 2,
+          "par": 4,
+          "si": 8
+        },
+        {
+          "code": "C",
+          "localHole": 3,
+          "par": 5,
+          "si": 16
+        },
+        {
+          "code": "C",
+          "localHole": 4,
+          "par": 3,
+          "si": 18
+        },
+        {
+          "code": "C",
+          "localHole": 5,
+          "par": 4,
+          "si": 10
+        },
+        {
+          "code": "C",
+          "localHole": 6,
+          "par": 4,
+          "si": 4
+        },
+        {
+          "code": "C",
+          "localHole": 7,
+          "par": 5,
+          "si": 6
+        },
+        {
+          "code": "C",
+          "localHole": 8,
+          "par": 3,
+          "si": 14
+        },
+        {
+          "code": "C",
+          "localHole": 9,
+          "par": 4,
+          "si": 2
+        }
+      ],
+      "source": "https://www.golfresort-kremstal.at/wp-content/uploads/2024/04/Scorekarte-27-Loch-2023.pdf",
+      "ratings": [
+        {
+          "tee": "Herren Gelb",
+          "cr": 68.1,
+          "slope": 121,
+          "par": 70
+        },
+        {
+          "tee": "Herren Rot",
+          "cr": 65,
+          "slope": 117,
+          "par": 70
+        },
+        {
+          "tee": "Damen Gelb",
+          "cr": 73.5,
+          "slope": 128,
+          "par": 70
+        },
+        {
+          "tee": "Damen Rot",
+          "cr": 71.2,
+          "slope": 118,
+          "par": 70
+        }
+      ]
+    }
+  ]
+}
