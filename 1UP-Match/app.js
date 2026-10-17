@@ -74,7 +74,7 @@ function pages(){return `
 <section id="album" class="page"><div class="panel"><div class="toolbar"><button class="btn primary" onclick="toast('Upload-Demo geöffnet')">+ Foto / Video</button><button class="btn">Alle Teams</button></div><div class="album"><div class="photo"><span>Foursomes · Tee 1</span></div><div class="photo"><span>Team Spirit · Tag 2</span></div><div class="photo"><span>Captain's Match</span></div></div><div class="sponsor"><b>ANZEIGE</b><br>Turnier unterstützt von <strong>Alpine Golf Partner</strong></div></div></section>
 <section id="chat" class="page"><div class="toolbar"><button class="btn primary" onclick="chatMode('team')">Team-Chat</button><button class="btn" onclick="chatMode('captains')">Kapitäns-Chat</button></div><div class="panel"><h3 id="chatTitle">Green Masters · Team-Chat</h3><div class="chat"><div class="messages" id="messages"></div><div class="compose"><input class="input" id="chatInput" placeholder="Nachricht schreiben …"><button class="btn primary" onclick="sendMessage()">Senden</button></div></div></div></section>
 <section id="results" class="page"><div class="panel" id="resultsContent"><h3>Ergebnisse der Teamduelle</h3>${duels().map(ms=>{let score=duelScore(ms);return `<div class="feeditem"><b>${esc(duelTitle(ms))}</b><br>${score[0]} : ${score[1]} · ${ms.filter(m=>m.status==="Beendet").length}/${ms.length} Matches beendet</div>`}).join("")||'<p class="small muted">Keine Teamduelle vorhanden.</p>'}</div></section>
-<section id="admin" class="page">${renderDuelsAdmin()}<div class="notice">Lege hier die Matchformate für neue Teamduelle fest. Bereits angelegte Duelle und Live-Scores bleiben beim Speichern erhalten.</div>
+<section id="admin" class="page">${renderDuelsAdmin()}<div class="notice">Lege hier die Matchformate für neue Teamduelle fest. Über „Einstellungen auf dieses Duell anwenden“ kannst du bestehende Duelle anpassen. Matches mit Live-Scores bleiben erhalten.</div>
 <div class="layout">
 <div class="panel"><h3>Klassischer Vierer</h3>
 <div class="switchrow"><span>Format aktiv</span><label class="switch"><input type="checkbox" id="adminViererEnabled" onchange="onViererEnabledChange()"><span class="slider"></span></label></div>
@@ -85,7 +85,7 @@ function pages(){return `
 <div class="field"><label for="adminEinzelMatches">Anzahl Matches (1–16)</label><input type="number" class="input" id="adminEinzelMatches" min="1" max="16" step="1"></div>
 </div>
 </div>
-<div class="toolbar" style="margin-top:16px"><button class="btn primary" onclick="saveAdminConfig()">Konfiguration speichern</button></div>
+<div class="toolbar" style="margin-top:16px"><button class="btn primary" onclick="saveAdminConfig()">Konfiguration für neue Duelle speichern</button><label for="editDuel">Bestehendes Teamduell</label><select class="select" id="editDuel">${duels().map((ms,i)=>`<option value="${i}">${esc(duelTitle(ms))}</option>`).join("")}</select><button class="btn" onclick="applyDuelConfig()" ${state.matches.length?"":"disabled"}>Einstellungen auf dieses Duell anwenden</button></div>
 <small id="adminStatus" class="small muted"></small>
 
 <div class="panel" style="margin-top:22px"><h3>Handicap-Vorgabe</h3>
@@ -245,4 +245,21 @@ if("serviceWorker" in navigator) window.addEventListener("load",()=>navigator.se
 
 
 function renderResults(){document.getElementById("resultsContent").innerHTML=`<h3>Ergebnisse der Teamduelle</h3>${duels().map(ms=>{let score=duelScore(ms);return `<div class="feeditem"><b>${esc(duelTitle(ms))}</b><br>${score[0]} : ${score[1]} · ${ms.filter(m=>m.status==="Beendet").length}/${ms.length} Matches beendet</div>`}).join("")||'<p class="small muted">Keine Teamduelle vorhanden.</p>'}`}
+
+function applyDuelConfig(){
+let index=+document.getElementById("editDuel").value,group=duels()[index];
+if(!group){toast("Bitte zuerst ein Teamduell anlegen.");return}
+let enabled=document.getElementById("adminViererEnabled").checked;
+let drive=enabled&&document.getElementById("adminAuswahlDrive").checked;
+let targets={"Klassischer Vierer":enabled?clamp(document.getElementById("adminViererMatches").value,1,10):0,"Einzel":clamp(document.getElementById("adminEinzelMatches").value,1,16)};
+let next=nextMatchId(),template=group[0],protectedCount=0;
+for(let [format,target] of Object.entries(targets)){
+let list=group.filter(m=>m.format===format),count=list.length;
+for(let i=list.length-1;i>=0&&count>target;i--){let m=list[i];if(m.status==="Noch nicht gestartet"&&!m.holes.some(Boolean)){state.matches=state.matches.filter(x=>x!==m);count--}else protectedCount++}
+while(count<target){state.matches.push({id:next++,duelId:template.duelId,enc:template.enc,teamAId:template.teamAId,teamBId:template.teamBId,format,auswahlDrive:format==="Klassischer Vierer"&&drive,a:"Offen",b:"Offen",status:"Noch nicht gestartet",holes:Array(18).fill(0)});count++}
+if(format==="Klassischer Vierer")list.forEach(m=>{if(m.status==="Noch nicht gestartet"&&!m.holes.some(Boolean))m.auswahlDrive=drive});
+}
+save();app();toast(protectedCount?"Duell angepasst. Matches mit bestehenden Scores wurden erhalten.":"Teamduell angepasst")
+}
+
 app();
