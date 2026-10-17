@@ -1,8 +1,0 @@
-{
-  "name":"klub-ryder-cup-pwa",
-  "version":"1.0.0",
-  "private":true,
-  "description":"Installierbare PWA für einen Klub-Ryder-Cup",
-  "scripts":{"start":"python -m http.server 8080"},
-  "keywords":["golf","ryder-cup","pwa","tournament"]
-}
