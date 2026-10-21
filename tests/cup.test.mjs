@@ -10,7 +10,8 @@ const auth=new Function(compile('app/cup-auth.ts')+';return {'+authNames.join(',
 let state=auth.authDefaults(model.upgradeEntries(model.seed('owner')));state.auth.admin=await auth.passwordHash('old-admin-password');let row={data:JSON.stringify(state),revision:0};
 const env={DB:{prepare(sql){return {bind(...args){return {async first(){return structuredClone(row)},async run(){if(sql.startsWith('UPDATE')){if(args[2]!==row.revision)return {meta:{changes:0}};row={data:args[0],revision:row.revision+1};}return {meta:{changes:1}};}};}};}}};
 const legacyImport=new Function('teams','mergeFixture',compile('app/legacy-import.ts')+';return importLegacy;')(model.teams,model.mergeFixture);
-const api=new Function('importLegacy','env',...names,...authNames,'coursePreset',compile('app/api/cup/route.ts')+';return {GET,POST};')(legacyImport,env,...names.map(k=>model[k]),...authNames.map(k=>auth[k]),coursePreset);
+const {publicBranding,validateBranding}=await import('data:text/javascript,'+encodeURIComponent(ts.transpile(fs.readFileSync('app/venues.ts','utf8'),{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022})));
+const api=new Function('publicBranding','validateBranding','importLegacy','env',...names,...authNames,'coursePreset',compile('app/api/cup/route.ts')+';return {GET,POST};')(publicBranding,validateBranding,legacyImport,env,...names.map(k=>model[k]),...authNames.map(k=>auth[k]),coursePreset);
 const request=(cookie='',token='',uid='')=>({headers:{...(cookie?{cookie}:{}),...(uid?{'oai-authenticated-user-id':uid}:{})},url:'https://example.test/api/cup?token='+token});
 async function get(cookie='',token='',uid=''){const q=request(cookie,token,uid);const response=await api.GET(new Request(q.url,{headers:q.headers}));assert.equal(response.status,200);return response.json();}
 async function post(body,cookie='',token='',uid=''){const q=request(cookie,token,uid);const response=await api.POST(new Request(q.url,{method:'POST',headers:{...q.headers,'Content-Type':'application/json'},body:JSON.stringify({revision:row.revision,...body})}));return {status:response.status,body:await response.json(),cookie:response.headers.get('set-cookie')?.split(';')[0]};}
@@ -112,6 +113,18 @@ denied(await post({action:'legacy-import',source:{...transferSource,players:[{..
 assert.equal(row.revision,revisionBeforeInvalidImport);
 console.log('Passed: legacy import is admin-only, preserves existing matches and groups, rejects invalid input without saving.');
 // Admin password change revokes older admin sessions; logout revokes the current one.
+// Branding is public, but only an admin can update it. Existing duels are preserved.
+const venueBefore=JSON.parse(row.data).fixtures.map(f=>({id:f.id,venue:f.venue,course:f.course}));
+denied(await post({action:'branding',branding:{venueId:'wels',sponsorName:'',sponsorLogo:''}}));
+for(const id of ['kremstal','herzog-tassilo','staerk-ansfelden','metzenhof','wels','linz-luftenberg',null]){
+ ok(await post({action:'branding',branding:{venueId:id,sponsorName:'Sponsor',sponsorLogo:''}},admin));
+ const publicData=await get();assert.equal(publicData.branding.venueId,id);
+}
+denied(await post({action:'branding',branding:{venueId:'unknown',sponsorName:'',sponsorLogo:''}},admin));
+denied(await post({action:'branding',branding:{venueId:null,sponsorName:'',sponsorLogo:'https://untrusted.test/logo.svg'}},admin));
+assert.deepEqual(JSON.parse(row.data).fixtures.map(f=>({id:f.id,venue:f.venue,course:f.course})),venueBefore);
+console.log('Passed: admin-only venue settings, six clubs, clearing selection, public branding and preserved fixtures.');
+
 ok(await post({action:'admin-pin',password:'0809'},admin));assert.equal((await get(admin)).admin,false);
 r=await post({action:'login',kind:'admin',password:'0809'});ok(r);admin=r.cookie;ok(await post({action:'logout'},admin));assert.equal((await get(admin)).admin,false);
 for(let i=0;i<8;i++)denied(await post({action:'login',kind:'admin',password:'9999'}));denied(await post({action:'login',kind:'admin',password:'0809'}));

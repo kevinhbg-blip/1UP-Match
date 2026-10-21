@@ -41,3 +41,23 @@ const lineupData={...data,admin:true,lineupRelease:{released:false},rosters:{...
 html=renderToStaticMarkup(React.createElement(require('../app/team-management.tsx').Lineup,{...shared,data:lineupData,team:model.teams[0],f:{...smallFixture,formats:['Einzel'],matchGroups:['A'],lineups:{}}}));
 assert.ok(html.includes('Gruppe A'));assert.ok(html.includes('Only group A'));assert.ok(!html.includes('Wrong group B'));
 console.log('Passed: planning matrix, 12–20 selectors, saved group totals, player requirements and group-filtered lineup options.');
+
+const {venues,venuePresentation,validateBranding}=require('../app/venues.ts');
+const VenueBrand=require('../app/venue-brand.tsx').default;
+const VenueSettings=require('../app/venue-settings.tsx').default;
+const {seoMetadata,siteSchema,siteUrl}=require('../app/seo.ts');
+for(const venue of venues){
+ const branding={venueId:venue.id,sponsorName:'Sponsor',sponsorLogo:'data:image/png;base64,AAAA'};
+ html=renderToStaticMarkup(React.createElement(VenueBrand,{branding}));
+ assert.ok(html.includes(venue.logo));assert.ok(html.includes(venue.name));assert.ok(!html.includes('data:image/png'));
+ const meta=seoMetadata(branding);assert.ok(meta.title.includes(venue.name));assert.equal(meta.alternates.canonical,siteUrl+'/');assert.equal(siteSchema(branding).contentLocation.name,venue.name);
+ assert.ok(fs.existsSync('public'+venue.logo));
+}
+html=renderToStaticMarkup(React.createElement(VenueBrand,{branding:{venueId:null,sponsorName:'Sponsor',sponsorLogo:'data:image/png;base64,AAAA'}}));assert.ok(html.includes('Sponsor Logo'));assert.ok(html.includes('data:image/png;base64,AAAA'));
+html=renderToStaticMarkup(React.createElement(VenueBrand,{branding:{}}));assert.ok(html.includes('/cup-logo.svg'));assert.ok(!html.includes('Kremstal'));
+html=renderToStaticMarkup(React.createElement(VenueSettings,shared));assert.equal((html.match(/<option /g)||[]).length,7);assert.ok(html.includes('Sponsorenlogo'));assert.ok(html.includes('Kein Austragungsort'));
+assert.equal(seoMetadata({},true).robots.index,false);assert.equal(seoMetadata({}).robots.index,true);
+const robots=require('../app/robots.txt/route.ts').GET();assert.ok(robots.headers.get('Content-Type').includes('text/plain'));
+const sitemap=require('../app/sitemap.xml/route.ts').GET();assert.ok(sitemap.headers.get('Content-Type').includes('application/xml'));
+assert.throws(()=>validateBranding({venueId:null,sponsorName:'',sponsorLogo:'data:image/svg+xml;base64,AAAA'}));
+console.log('Passed: six automatic venue logos, sponsor/site fallbacks, dropdown, metadata, schema and SEO route content types.');

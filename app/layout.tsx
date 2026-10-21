@@ -1,3 +1,5 @@
 import './globals.css';
-export const metadata={title:'Golden Youngstars · Ryder Cup',description:'Der Club Ryder Cup im Golfresort Kremstal. Spielplan, Live-Scores und Ergebnisse.'};
-export default function Layout({children}:any){return <html lang="de"><body>{children}</body></html>}
+import {siteUrl} from './seo';
+export const metadata={metadataBase:new URL(siteUrl),title:'Club Ryder Cup | Golden Youngstars',description:'Live-Scores, Spielplan und Ergebnisse des Club Ryder Cups.',icons:{icon:'/favicon.svg',apple:'/apple-touch-icon.png'},formatDetection:{telephone:false}};
+export const viewport={width:'device-width',initialScale:1,themeColor:'#173c30'};
+export default function Layout({children}:any){return <html lang="de-AT"><body>{children}</body></html>}
